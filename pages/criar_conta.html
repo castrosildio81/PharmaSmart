@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../Imagens/pharmasmart_logo01.png">
+<title>Criar Conta - Pharmasmart</title>
+
+<style>
+
+:root {
+--bg-main: #d0d1d0;
+  --bg-card: #ffffff;
+  --bg-hover: #00380c;
+  --primary: #424b60;
+  --text-main: #000000;
+  --text-muted: #000000;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== BODY ===== */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+/* CENTRALIZA */
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CARD */
+.login-box {
+  background: var(--bg-card);
+  padding: 30px;
+  margin:15px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* TITULO */
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* INPUT */
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  background: var(--bg-main);
+  border: 1px solid var(--bg-hover);
+  border-radius: 8px;
+  color: var(--text-main);
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: var(--primary);
+}
+
+/* BOTAO */
+button {
+  width: 100%;
+  padding: 10px;
+  background: var(--primary);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--bg-hover);
+}
+
+/* LINKS */
+.lk {
+  display: block;
+  margin-top: 15px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.lk:hover {
+  text-decoration: double;
+}
+
+
+.footer {
+  text-align: center;
+  padding: 15px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--bg-hover);
+}
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input {
+  padding-right: 35px;
+}
+
+.input-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  pointer-events: none;
+}
+
+/* efeito bonito */
+.input-wrapper input:focus + .input-icon {
+  color: var(--primary);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="main">
+
+  <div class="login-box">
+
+    <h2>Criar Conta</h2>
+
+    <form action="../funcoes/add_user.php" method="POST">
+      
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="text" name="name" placeholder="Nome completo" required>
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg"
+            width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 20c0-4 4-7 8-7s8 3 8 7"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="text" name="number" placeholder="Telefone" required>
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg"
+            width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92V21a1 1 0 0 1-1.09 1 
+            19.86 19.86 0 0 1-8.63-3.07 
+            19.5 19.5 0 0 1-6-6 
+            A19.86 19.86 0 0 1 3.09 3.09 
+            1 1 0 0 1 4 2h4.09a1 1 0 0 1 1 .75 
+            12.05 12.05 0 0 0 .7 2.81 
+            1 1 0 0 1-.23 1.09L8.09 8.91 
+            a16 16 0 0 0 6 6l2.26-1.47 
+            a1 1 0 0 1 1.09-.23 
+            12.05 12.05 0 0 0 2.81.7 
+            1 1 0 0 1 .75 1z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="email" name="email" placeholder="Email" required>
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg"
+            width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16v16H4z"></path>
+            <path d="M22 6l-10 7L2 6"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="input-group">
+          <input type="date" name="date" required>
+      </div>
+
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="text" name="morada" placeholder="Morada" required>
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg"
+            width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 21s-6-5.33-6-10a6 6 0 0 1 12 0c0 4.67-6 10-6 10z"></path>
+            <circle cx="12" cy="11" r="2"></circle>
+          </svg>
+        </div>
+      </div>
+
+
+     <div class="input-group">
+        <div class="input-wrapper">
+          <input type="password" name="pass" placeholder="Senha" required>
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg"
+            width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="password" name="c_pass" placeholder="Confirmar senha" required>
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg"
+            width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 6L9 17l-5-5"></path>
+          </svg>
+        </div>
+      </div>
+      <button type="submit">Criar conta</button>
+
+      <a href="../pages/login.html" class="lk">Já tenho uma conta</a>
+
+    </form>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  © 2026 Pharmasmart • Todos os direitos reservados • pharmasmartsuporte@gmail.com • v1.0
+</div>
+
+</body>
+</html>
+

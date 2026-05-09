@@ -1,0 +1,201 @@
+ 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  display: flex;
+  background: #ffffff;
+  color: #e5e7eb;
+  overflow: hidden;
+}
+
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #2e4136;
+  padding: 25px;
+  border-right: 1px solid #7e8ca3;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 12px;
+  border-radius: 8px;
+  color: #ffffff;
+  text-decoration: none;
+  margin-bottom: 8px;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: #1e293b;
+  color: white;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 25px;
+  
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.search {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #2e4136;
+  color: white;
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  background: #2e4136;
+  padding: 20px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  background: #334155;
+}
+
+.card h3 {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.card p {
+  font-size: 22px;
+  margin-top: 10px;
+}
+
+/* STATUS */
+.badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+
+/* TABLE */
+.table {
+  margin-top: 30px;
+  background: #2e4136;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  font-size: 12px;
+  color: #94a3b8;
+  padding-bottom: 10px;
+}
+
+td {
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #334155;
+}
+th, td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+/* RESPONSIVO */
+@media(max-width: 768px){
+  .sidebar {
+    display: none;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+}
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  display: flex;
+}
+.user{
+  text-decoration: none;
+  color: #e5e7eb;
+  display: inline-flex;
+  align-items: center; /* centraliza verticalmente texto + ícone */
+  gap: 4px; /* espaçamento entre o nome e o ícone */
+}
+
+.user svg, .search svg {
+  vertical-align: middle; 
+  margin-left: 4px; /* Espaço entre o nome e o ícone */
+}
+.user svg{
+    border: 1px solid white;
+    border-radius: 15px;
+    
+
+}
+.user{
+  color: #080808;
+}
+.pharma{
+  position: relative;
+  width: 50px;
+}
+.bom {
+  background: #99f7bb;
+  color: #16a34a;
+}
+
+  .medio {
+    background-color: #f7dc66;
+    color: #995d18;
+}
+
+
+.baixo {
+    background-color: #ffb5b5;
+    color: #b30000;
+    font-weight: bold;
+}
+
+.baixo, .bom, .medio {
+  border-radius: 10px;
+  margin: 10px;
+}

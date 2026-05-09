@@ -1,0 +1,16 @@
+.logo {
+        padding: 6px;
+        gap: 0 !important;
+        border-radius: 10px;
+        border: 2px solid rgb(0, 153, 82);
+        font-family: 'Poppins', sans-serif;
+            font-weight: 700; /* mais grosso */
+        letter-spacing: 1px; /* mais espaçado */
+        font-size: 20px;  
+}
+.pharma {
+    color: green;
+            }
+.smart {
+    color: #104ec2;
+    }

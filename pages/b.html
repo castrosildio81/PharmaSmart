@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="../style/style.css">
+    <script src="../script_js/color.js"></script>
+    <style>
+      .s{
+        margin-top: 6px;
+      }
+      .d{
+        width: 100%;
+        padding: 4px;
+        font-size: 13px;
+      } 
+      .form form{
+        width: 240px;
+      }
+      .i{
+         width: 100%;
+      }
+      .signup{
+        font-size: 25px;
+        margin: 1px;
+      }
+      body{
+        transition: background-color 5s ease;
+      }
+
+    </style>
+    </head>
+    <body>
+    <div class="form a"> 
+        <form action="../funcoes/add_user.php" id="loginForm" method="post">   
+          <p class="signup">CADASTRO</p>
+          
+                <label for="name">Nome</label>
+                <input class="i " type="text" name="name" id="name" required>
+
+                <label for="number">Número</label>
+                <input class="i " type="text" name="number" id="number" required>
+
+                <label for="email">Email</label>
+                <input class="i " class="i " type="email" name="email" id="email" required>
+
+                <label for="data">Data de nascimento</label>
+                <input class="i d" type="date" name="date" id="date" required>
+
+                <label for="pass">Senha</label>
+                <input class="i " type="password" name="pass" id="pass" required>
+
+                <label for="c_pass">Confirmar senha</label>
+                <input class="i " type="password" name="c_pass" id="c_pass" required>
+                 
+                <input class="i s" type="submit" value="CRIAR CONTA">
+                <a href="login.html" class="lk c">Iniciar sessão</a>
+        </form>
+    </div>
+
+</body>
+<script>
+
+</script>
+</html>

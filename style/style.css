@@ -1,0 +1,73 @@
+body{
+    
+    display: flex;
+    justify-content: center;
+    background-color: #424b60;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    
+}
+
+.form form{
+    border: .5px solid white; 
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.s{
+    width: 100%;
+    padding: 4px;
+    margin-top: 2px;
+    border: .4px solid white;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+}
+label{
+    padding: 6px;
+}  
+.i{
+    border-radius: 4px;
+}     
+input.s:hover{
+    background-color: rgb(168, 159, 159);
+}
+input:hover{
+transition:.2s ;
+transform:scale(1.03);
+}
+.lk{
+    text-decoration: none;
+    padding: 5px;
+    margin-top: 10px;
+    color: white;
+}
+.lk:hover{
+    text-decoration: underline;
+    color: rgb(110, 102, 102);
+}
+
+
+#login-error {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%); /* começa fora da tela */
+
+  background: #ff4d4d;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+
+  z-index: 1000;
+
+  opacity: 0;                
+  transition: all 0.4s ease;   
+}
+#login-error.show {
+  transform: translateX(-50%) translateY(0); 
+  opacity: 1;                               
+}
