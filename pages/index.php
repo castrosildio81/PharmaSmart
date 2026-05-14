@@ -15,9 +15,25 @@
             $user_data_n = $user['data_nascimento'];   
             $user_morada = $user['morada'];
 
+            $nomes = explode(" ", $user_nome);
+            $nome = $nomes[0] ." ". $nomes[count($nomes)-1];
+
+           // notificacoes
+           $sql_notif = "SELECT COUNT(*) AS total 
+              FROM notificacoes 
+              WHERE lida = 0 
+              AND usuario_id = :user_id";
+
+$stmt = $conec->prepare($sql_notif);
+$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+$stmt->execute();
+
+$noti = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$notif = (int)$noti['total'];
 
 
-            $primeiro = 
+
         
 }
 
@@ -39,6 +55,54 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style/logo.css">
     <link rel="stylesheet" href="../style/index.css">
+    <style>
+        .icon-notification {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Bolinha */
+.notif {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    background: transparent;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+/* Ativo */
+.notif.active {
+    background: #ff3b3b;
+    box-shadow: 0 0 6px rgba(255, 59, 59, 0.7);
+}
+
+/* Animação */
+.notif.active::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 59, 59, 0.5);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(5);
+        opacity: 0;
+    }
+}
+
+    </style>
 </head>
 <body>
     <div class="main">
@@ -71,14 +135,14 @@
                                         <circle cx="12" cy="8" r="4"></circle>
                                         <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
                                     </svg>
-                                    <?= htmlspecialchars($user_nome) ?>
+                                    <?= htmlspecialchars($nome) ?>
                                 </a> 
                             </div>
                             <div class="dropdown">
                                 <a href="user.php">Perfil</a>
-                                <a href="">Diagnóstico</a>
-                                <a href="">Nova receita</a>
-                                <a href="">Histórico</a>
+                                <a href="diagnostico.php">Diagnóstico</a>
+                                <a href="nova_receita.php">Nova receita</a>
+                                <a href="historico.php">Histórico</a>
                                 <a href="../funcoes/logout.php">Terminar sessão</a>
                             </div>  
                         </div>
@@ -88,7 +152,8 @@
                     <a href="criar_conta.html">Criar conta</a>
                 <?php endif; ?>
                  <?php if(isset($_SESSION['user'])):?>
-                <div class="notif" style="position: relative; display: inline-block;">
+                    
+                <div class="icon-notification">
                     <svg xmlns="http://www.w3.org/2000/svg" 
                         width="24" height="24" 
                         viewBox="0 0 24 24" 
@@ -98,10 +163,9 @@
                         <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                     </svg>
+                    
 
-                    <span class="notif-bolinha">
-                    </span>
-
+                    <span class="notif <?= $notif > 0 ? 'active' : '' ?>"></span>
                 </div>
                 <div class="carrinho" onclick="window.location='carrinho.php'">
                 <?php else: ?>
@@ -142,7 +206,7 @@
                 <div class="item" >
                     <img src="../<?= !empty($row['imagem']) ? $row['imagem'] : 'uploads/default.png' ?>" alt="<?= htmlspecialchars($row['nome']) ?>" alt="produto">
                     <h4><?= htmlspecialchars($row['nome']) ?></h4>
-                    <p class="pulse"><?= number_format($row['preco'], 2, ',', '.') ?> AOA</p>
+                    <p class="pulsar-preco"><?= number_format($row['preco'], 2, ',', '.') ?> AOA</p>
 
                      <?php if(isset($_SESSION['user'])):?>
                         <form action="add_cart.php" method="post">

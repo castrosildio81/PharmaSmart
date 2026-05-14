@@ -44,7 +44,7 @@
 
 body {
   display: flex;
-  background: #ffffff;
+  background: #0f172a; 
   color: #e5e7eb;
   overflow: hidden;
 }
@@ -52,15 +52,14 @@ body {
 
 .sidebar {
   width: 250px;
-  height: 100vh;
-  background: #2e4136;
+  height: calc(100vh - 70px); 
   padding: 25px;
-  border-right: 1px solid #7e8ca3;
+  background: linear-gradient(180deg, #1f2e26, #16211b);
+  border-right: 1px solid rgba(255,255,255,0.05);
 
-  
   position: fixed;
   left: 0;
-  top: 0;
+  top: 70px;
   overflow-y: auto
 }
 
@@ -87,11 +86,10 @@ body {
 .topbar {
   position: fixed;
   top: 0;
-  left: 250px;
+  left: 0;
   right: 0;
 
   height: 70px;
-  background: #2e4136;
   border-bottom: 1px solid #7e8ca3;
 
   display: flex;
@@ -100,6 +98,13 @@ body {
 
   padding: 0 20px;
   z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+
+  background: rgba(31, 46, 38, 0.9);
+  backdrop-filter: blur(8px);
 }
 
 /* MAIN */
@@ -111,13 +116,6 @@ body {
   height: 100vh;
 }
 
-/* TOPBAR */
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
 
 .search {
   padding: 8px 12px;
@@ -134,11 +132,16 @@ body {
 }
 
 .card {
+   background: linear-gradient(145deg, #1f2e26, #18241d);
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
   flex: 1;
-  background: #2e4136;
+ 
   padding: 20px;
   border-radius: 12px;
   transition: 0.3s;
+
+  
 }
 
 .card:hover {
@@ -168,44 +171,65 @@ table {
 /* TABLE */
 .table {
   margin-top: 30px;
-  background: #2e4136;
+  
   padding: 20px;
   border-radius: 12px;
   overflow-x: auto;
-}
-
-table {
   width: 100%;
   border-collapse: collapse;
+
+  background: linear-gradient(145deg, #1f2e26, #18241d);
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 }
 
-
 thead {
-  background: #1f2e26;
+  background: #1b2a22;
 }
 
 th {
   text-align: left;
-  font-size: 12px;
-  color: #94a3b8;
+  
+  
   padding: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+
+  font-weight: 600;
+  font-size: 13px;
+  color: #9ca3af;
+}
+tr{
+  transition: all 0.2s ease;
 }
 tr:nth-child(even) {
   background: rgba(255, 255, 255, 0.02);
 }
 
 tr:hover {
-  background: rgba(255, 255, 255, 0.06);
   transition: 0.2s;
+  
+  transform: scale(1.01);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 
 td {
-  padding: 12px;
+  padding: 14px 12px;
   border-top: 1px solid #334155;
   color: #e5e7eb;
+  text-align: center;
+}
+
+td.estoque {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+td.estoque span {
+  border-left: 3px solid currentColor;
+  padding-left: 8px;
 }
 
 th, td {
@@ -257,52 +281,74 @@ th, td {
   align-items: center;
   gap: 8px;
   text-decoration: none;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: 0.2s;
 }
+.user:hover{
+  background: rgba(255,255,255,0.05);
+}
+
 .pharma{
   position: relative;
   width: 50px;
 }
 .bom {
-  background: rgba(34, 197, 94, 0.15);
-  color: #22c55e;
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
 }
 
 .medio {
-  background: rgba(234, 179, 8, 0.15);
-  color: #eab308;
+  background: rgba(234, 179, 8, 0.2);
+  color: #facc15;
 }
 
-
 .baixo {
-  background: rgba(239, 68, 68, 0.15);
-  color: #ef4444;
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
 }
 
 .bom, .medio, .baixo {
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
-  font-weight: bold;
-  display: inline-block;
+  font-weight: 600;
   font-size: 12px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 75px;
+  letter-spacing: 0.3px;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 .search-box {
   display: flex;
   align-items: center;
-  background: #1f2e26;
+  
   padding: 6px 10px;
   border-radius: 8px;
+
+  background: #16211b;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .search-box input {
   border: none;
   outline: none;
   background: transparent;
-  color: white;
+  
   margin-right: 8px;
   width: 220px;
+  color: #e5e7eb;
 }
 .logo{
   margin-top: 30px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 </style>
@@ -341,7 +387,6 @@ th, td {
   </span>
   Pedidos
 </a>
-  
 <a href="clientes.php">
     <span>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -439,7 +484,7 @@ th, td {
             echo "<td>{$row['nome']}</td>";
             echo "<td>{$row['descricao']}</td>";
             echo "<td>{$row['preco']}</td>";
-            echo "<td class='$classe'>{$row['estoque']}</td>";
+            echo "<td class='estoque'><span class='$classe'>{$row['estoque']} UND</span></td>";
             echo "<td>" . ($row['necessita_receita'] ? "Sim" : "Não")."</td>";
             echo "</tr>";
             }
