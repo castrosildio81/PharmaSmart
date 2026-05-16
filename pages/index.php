@@ -24,13 +24,27 @@
               WHERE lida = 0 
               AND usuario_id = :user_id";
 
-$stmt = $conec->prepare($sql_notif);
-$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-$stmt->execute();
+            $stmt = $conec->prepare($sql_notif);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
 
-$noti = $stmt->fetch(PDO::FETCH_ASSOC);
+            $noti = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$notif = (int)$noti['total'];
+            $notif = (int)$noti['total'];
+
+            // quantidade de itens no carrinho
+            $sql = "SELECT SUM(quantidade) AS total_itens
+                    FROM carrinho
+                    WHERE usuario_id = :user_id";
+
+            $stmt = $conec->prepare($sql);
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->execute();
+
+            $result = $stmt->fetch();
+
+            $total = $result['total_itens'] ?? 0;
+
 
 
 
@@ -169,8 +183,11 @@ $notif = (int)$noti['total'];
                 </div>
                 <div class="carrinho" onclick="window.location='carrinho.php'">
                 <?php else: ?>
+
+                    
                 <div class="carrinho" onclick="window.location='login.html'">
                 <?php endif; ?>
+
                     <svg xmlns="http://www.w3.org/2000/svg" 
                         width="24" height="22" 
                         fill="none" 
@@ -187,7 +204,11 @@ $notif = (int)$noti['total'];
                                 2-1.61L23 6H6">
                         </path>
                     </svg>
-                     <span class="cart-count">14</span>
+                    <?php if(isset($_SESSION['user'])):?>
+                    <span class="cart-count"><?=$total?></span>
+                    <?php else:?>
+                    <span class="cart-count">0</span>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -209,7 +230,7 @@ $notif = (int)$noti['total'];
                     <p class="pulsar-preco"><?= number_format($row['preco'], 2, ',', '.') ?> AOA</p>
 
                      <?php if(isset($_SESSION['user'])):?>
-                        <form action="add_cart.php" method="post">
+                        <form action="../funcoes/add_carrinho.php" method="post">
                             <input type="hidden" name="produto_id" value="<?= $row['id'] ?>">
                             <button type="submit">Adicionar</button>
                         </form>
@@ -223,7 +244,7 @@ $notif = (int)$noti['total'];
         </div>
     </div>
     <div class="footer">
-     © 2026 Pharmasmart • Todos os direitos reservados • pharmasmartsuporte@gmail.com • +244 938 530 558 • v1.0
+     © 2026 Pharmasmart • Todos os direitos reservados • pharmasmartsuporte@gmail.com • +244 938 530 558 • v1.0 • Sildio Evaristo
     </div>
     
 </body>

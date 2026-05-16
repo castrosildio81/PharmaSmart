@@ -3,6 +3,7 @@
     include 'conection.php';
     $receita_id = $_SESSION['receita_id'];
     
+    
 
     // Buscar caminho da imagem
     $sql = "SELECT imagem FROM receitas WHERE id = :id";
@@ -30,10 +31,10 @@
 unset($_SESSION['receita_id']);
 unset($_SESSION['ocr_texto']);
 
-$msg = "Receita enviada com sucesso!";
+$msg = "receita cancelada!";
 $_SESSION['msg'] = $msg;
 
-header("Location: pagina.php");
+header("Location: ../pages/nova_receita.php");
 exit;
 
 ?>

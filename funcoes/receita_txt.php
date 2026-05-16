@@ -30,11 +30,14 @@
     
     unset($_SESSION['receita_id']);
     unset($_SESSION['ocr_texto']);
+    
+    $msg = "Receita enviada com sucesso!";
+    $_SESSION['msg'] = $msg;
 
    header("Location: ../pages/nova_receita.php");
 
    $msg = "Receita enviada com sucesso!";
-   
+
    exit;
 
 ?>

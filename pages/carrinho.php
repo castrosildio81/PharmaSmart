@@ -1,40 +1,68 @@
 <?php
-session_start();
-include "../funcoes/conection.php";
-include "../seguranca/s_clt.php";
+    session_start();
+    include "../funcoes/conection.php";
+    include "../seguranca/s_clt.php";
 
-$user = $_SESSION['user'];
+    if (!isset($_SESSION['user'])) {
+        session_destroy();
+        header("Location: index.php");
+        exit;
+    }
 
-$user_nome = $user['nome'];
-$user_email = $user['email'];
+    $user = $_SESSION['user'];
 
-$iniciais = strtoupper(substr($user_nome, 0, 1));
+    $user_id = $user['id'];
+    $user_nome = $user['nome'];
+    $user_email = $user['email'];
 
-/*
-    EXEMPLO TEMPORÁRIO DE PRODUTOS
-    Depois você pode substituir pelo banco de dados
-*/
+    $iniciais = strtoupper(substr($user_nome, 0, 1));
 
-$carrinho = [
-    [
-        "nome" => "Paracetamol 500mg",
-        "preco" => 2500,
-        "quantidade" => 2,
-        "imagem" => "../imagens/produtos/paracetamol.png"
-    ],
-    [
-        "nome" => "Vitamina C",
-        "preco" => 1800,
-        "quantidade" => 1,
-        "imagem" => "../imagens/produtos/vitaminac.png"
-    ]
-];
 
-$total = 0;
+    // quantidade de itens no carrinho
+    $sql = "SELECT SUM(quantidade) AS total_itens
+            FROM carrinho
+            WHERE usuario_id = :user_id";
 
-foreach($carrinho as $item){
-    $total += $item['preco'] * $item['quantidade'];
-}
+    $stmt = $conec->prepare($sql);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+
+    $result = $stmt->fetch();
+
+    $total = $result['total_itens'] ?? 0;
+
+    // quntidade de tipos de produto
+    $sql = "SELECT COUNT(*) AS total_tipos 
+            FROM carrinho 
+            WHERE usuario_id = :usuario_id";
+
+    $stmt = $conec->prepare($sql);
+    $stmt->bindParam('usuario_id', $user_id);
+    $stmt->execute();
+
+    $result = $stmt->fetch();
+
+    $total_tipos = $result['total_tipos'] ?? 0;
+
+    // Nome, preço, quantidade de produtos no carrinho
+    $sql = "SELECT  c.id, m.nome, m.imagem, m.preco, c.quantidade
+            FROM carrinho c
+            JOIN medicamentos m ON c.medicamento_id = m.id
+            WHERE c.usuario_id = :usuario_id";
+
+    $stmt = $conec->prepare($sql);
+    $stmt->bindParam('usuario_id', $user_id );
+    $stmt->execute();
+
+    $carrinho = $stmt->fetchAll();
+
+
+    //preço total do carrinho
+    $total = 0;
+
+    foreach($carrinho as $item){
+        $total += $item['preco'] * $item['quantidade'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -298,7 +326,7 @@ body{
 
             <div class="item">
 
-                <img src="<?=$item['imagem']?>" alt="produto">
+                <img src="<?="../" . $item['imagem']?>" alt="produto">
 
                 <div class="info">
 
@@ -321,10 +349,10 @@ body{
                     </div>
 
                 </div>
-
-                <button class="remover">
-                    Remover
-                </button>
+                <form action="../funcoes/remover_do_carrinho.php" method="post">
+                    <input type="hidden" name="item_id" value="<?=$item['id']?>">
+                    <button type="submit" class="remover">Remover</button>
+                </form>
 
             </div>
 

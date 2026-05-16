@@ -3,8 +3,9 @@
 session_start();
 include "../funcoes/conection.php";
 
-$user_id = $_SESSION['user']['id'];
+$user = $_SESSION['user'];
 
+$user_id = $user['id'];
 $produto_id = $_POST['produto_id'];
 
 $sql = "SELECT * FROM carrinho
@@ -47,4 +48,6 @@ if($item){
     ]);
 }
 
-header("Location: carrinho.php");
+header("Location: ../pages/index.php");
+
+?>

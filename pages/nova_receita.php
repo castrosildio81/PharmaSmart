@@ -58,7 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $script = 'C:\\xampp\\htdocs\\pharmasmart\\script_py\\ocr.py';
 
                     $comando = $python . " " . $script . " " . escapeshellarg($destino) . " 2>&1";
-                    set_time_limit(60);
+                    //timeout 
+                    set_time_limit(20);
+                    
+                   
 
                     $resultado = shell_exec($comando);
 
@@ -76,8 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-if(isset($SESSION['msg'])){
-    $msg = $_SESSION['msg'];
+if(isset($msg)){
+    if(isset($_SESSION['msg'])){
+        $msg = $_SESSION['msg'];
+    }
 }
 
 
