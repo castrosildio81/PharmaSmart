@@ -36,8 +36,6 @@
 
    header("Location: ../pages/nova_receita.php");
 
-   $msg = "Receita enviada com sucesso!";
-
    exit;
 
 ?>

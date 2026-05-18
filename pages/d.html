@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ================= BASE ================= */
+:root{
+    --bg:#0f172a;
+    --card:#111827;
+    --card-2:#1f2937;
+    --primary:#3b82f6;
+    --secondary:#22c55e;
+    --danger:#ef4444;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+    --radius:16px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter','Segoe UI',sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    display:flex;
+    min-height:100vh;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar{
+    width:260px;
+    background:#020617;
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    border-right:1px solid rgba(255,255,255,0.05);
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    color:var(--primary);
+    margin-bottom:30px;
+}
+
+.nav a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    border-radius:10px;
+    color:var(--muted);
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.nav a:hover{
+    background:var(--card-2);
+    color:#fff;
+}
+
+.nav a.active{
+    background:var(--primary);
+    color:#fff;
+}
+
+/* ================= MAIN ================= */
+.main{
+    flex:1;
+    padding:25px;
+}
+
+/* ================= TOPBAR ================= */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.search{
+    background:var(--card);
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    color:#fff;
+    width:280px;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+/* ================= CARDS ================= */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.card{
+    background:var(--card);
+    padding:20px;
+    border-radius:var(--radius);
+    position:relative;
+    overflow:hidden;
+    transition:0.3s;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:4px;
+    top:0;
+    left:0;
+    background:var(--primary);
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card small{
+    color:var(--muted);
+}
+
+.card h2{
+    margin-top:10px;
+    font-size:26px;
+}
+
+/* ================= GRID ================= */
+.grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.chart-box{
+    background:var(--card);
+    padding:20px;
+    border-radius:var(--radius);
+}
+
+.side-box{
+    background:var(--card);
+    padding:20px;
+    border-radius:var(--radius);
+}
+
+/* ================= TABLE ================= */
+.table{
+    margin-top:25px;
+    background:var(--card);
+    padding:20px;
+    border-radius:var(--radius);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    color:var(--primary);
+    padding:10px;
+}
+
+td{
+    padding:12px;
+    border-top:1px solid rgba(255,255,255,0.05);
+}
+
+tr:hover{
+    background:rgba(255,255,255,0.02);
+}
+
+/* ================= BUTTONS ================= */
+.btn{
+    padding:6px 12px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:12px;
+    transition:0.2s;
+}
+
+.btn-primary{background:var(--primary);color:#fff}
+.btn-success{background:var(--secondary);color:#fff}
+.btn-danger{background:var(--danger);color:#fff}
+
+.btn:hover{
+    opacity:0.85;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1100px){
+    .cards{grid-template-columns:repeat(2,1fr)}
+    .grid{grid-template-columns:1fr}
+}
+
+@media(max-width:600px){
+    .sidebar{display:none}
+    .cards{grid-template-columns:1fr}
+}
+
+/* ================= SCROLL ================= */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:10px}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fade{
+    from{opacity:0;transform:translateY(10px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.main{animation:fade 0.6s ease}
+
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+<div class="logo">PharmaAdmin</div>
+<div class="nav">
+<a class="active" href="#">Dashboard</a>
+<a href="#">Pedidos</a>
+<a href="#">Produtos</a>
+<a href="#">Usuários</a>
+<a href="#">Relatórios</a>
+</div>
+</div>
+
+<div class="main">
+
+<div class="topbar">
+<input class="search" placeholder="Pesquisar...">
+<div class="user">
+<div class="avatar">A</div>
+</div>
+</div>
+
+<div class="cards">
+<div class="card"><small>Vendas</small><h2>120K</h2></div>
+<div class="card"><small>Pedidos</small><h2>320</h2></div>
+<div class="card"><small>Usuários</small><h2>89</h2></div>
+<div class="card"><small>Produtos</small><h2>150</h2></div>
+</div>
+
+<div class="grid">
+<div class="chart-box">
+<canvas id="sales"></canvas>
+</div>
+
+<div class="side-box">
+<h3>Status pedidos</h3>
+<p>Pendente: 12</p>
+<p>Enviado: 40</p>
+<p>Entregue: 80</p>
+</div>
+</div>
+
+<div class="table">
+<h3>Pedidos recentes</h3>
+<table>
+<tr><th>ID</th><th>Cliente</th><th>Status</th><th>Ação</th></tr>
+<tr><td>#001</td><td>João</td><td>Pendente</td><td><button class="btn btn-primary">Ver</button></td></tr>
+<tr><td>#002</td><td>Ana</td><td>Enviado</td><td><button class="btn btn-success">Ver</button></td></tr>
+</table>
+</div>
+
+</div>
+
+<script>
+ new Chart(document.getElementById('sales'),{
+  type:'line',
+ data:{
+  labels:['Seg','Ter','Qua','Qui','Sex','Sab','Dom'],
+  datasets:[{
+   label:'Vendas última semana',
+   data:[120,200,150,300,250,400,500],
+   borderColor:'#3b82f6',
+   backgroundColor:'rgba(59,130,246,0.2)',
+   tension:0.4,
+   fill:true
+  }]
+ }
+});
+</script>
+
+</body>
+</html>

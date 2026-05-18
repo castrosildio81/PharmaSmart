@@ -1,6 +1,7 @@
 <?php
     session_start();
     include "../funcoes/conection.php";
+    include "../seguranca/s_clt.php";
 
 
     if (isset($_SESSION['user'])) {
@@ -45,19 +46,78 @@
 
             $total = $result['total_itens'] ?? 0;
 
+           
 
 
 
         
 }
+    //selecionar todos os produtos
+    if(isset($_GET['categoria'])){
+        $categoria = $_GET['categoria'];
+        
+        $sql = "SELECT * FROM medicamentos WHERE categoria_id = :categoria";
+        $stmt = $conec->prepare($sql);
+        $stmt->bindParam(":categoria", $categoria);
+        
+    } else {
+        
+        $sql = "SELECT * FROM medicamentos";
+        $stmt = $conec->query($sql);
+    }
+        $stmt->execute();
+        $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
 
-   
+     //categorias de produtos
+    $sqlCat = "SELECT * FROM categorias";
+    $stmtCat = $conec->prepare($sqlCat);
+    $stmtCat->execute();
+    $categorias = $stmtCat->fetchAll(PDO::FETCH_ASSOC);
 
-    include "../seguranca/s_clt.php";
+    ///barra de pesquisa
+
+$pesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : null;
+$categoria = isset($_GET['categoria']) ? $_GET['categoria'] : null;
+
+if ($pesquisa && $categoria) {
+
+    $sql = "SELECT * FROM medicamentos
+            WHERE categoria_id = :categoria 
+            AND nome LIKE :pesquisa";
+
+    $stmt = $conec->prepare($sql);
+    $stmt->bindValue(":categoria", $categoria);
+    $stmt->bindValue(":pesquisa", "%$pesquisa%");
+
+} elseif ($pesquisa) {
+
+    $sql = "SELECT * FROM medicamentos 
+            WHERE nome LIKE :pesquisa";
+
+    $stmt = $conec->prepare($sql);
+    $stmt->bindValue(":pesquisa", "%$pesquisa%");
+
+} elseif ($categoria) {
+
+    $sql = "SELECT * FROM medicamentos
+            WHERE categoria_id = :categoria";
+
+    $stmt = $conec->prepare($sql);
+    $stmt->bindValue(":categoria", $categoria);
+
+} else {
 
     $sql = "SELECT * FROM medicamentos";
-    $stmt = $conec->query($sql);
-    $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $conec->prepare($sql);
+}
+
+$stmt->execute();
+$produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -76,7 +136,7 @@
     cursor: pointer;
 }
 
-/* Bolinha */
+/* Bolinha de notificação*/
 .notif {
     position: absolute;
     top: -2px;
@@ -115,6 +175,42 @@
         opacity: 0;
     }
 }
+.ativo {
+    font-weight: bold;
+    color: #0a7cff;
+}
+.categorias {
+    display: flex;
+    gap: 10px;
+    padding: 15px 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.categorias::-webkit-scrollbar {
+    display: none;
+}
+.cat {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #b6d4f1ff;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: 0.3s;
+    border: 1px solid transparent;
+}
+.cat:hover {
+    background: #e0e0e0;
+}
+
+.cat.ativo {
+    background: #0a7cff;
+    color: white;
+    border: 1px solid #0a7cff;
+    box-shadow: 0 4px 10px rgba(10,124,255,0.3);
+}
+
 
     </style>
 </head>
@@ -125,17 +221,25 @@
                 <span class="pharma">Pharma</span>
                 <span class="smart">Smart</span>
             </div>
+
+            <form method="GET" action="index.php">
             <div class="pesquisa">
             <div class="search-box">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                <input type="text" name="pesquisa" placeholder="Procurar por fármacos...">
+                <button type="submit">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                     viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="23" y1="23" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="text" placeholder="Procurar medicamentos...">
+                
+                </button>
             </div>
             </div>
+            </form>
+
             <div class="acoes">
                 <?php if(isset($_SESSION['user'])):?>
                     <span class="user">
@@ -167,7 +271,7 @@
                 <?php endif; ?>
                  <?php if(isset($_SESSION['user'])):?>
                     
-                <div class="icon-notification">
+                <div onclick="window.location='notificacoes.php'" class="icon-notification">
                     <svg xmlns="http://www.w3.org/2000/svg" 
                         width="24" height="24" 
                         viewBox="0 0 24 24" 
@@ -219,6 +323,16 @@
         <div class="prod">
             <p>PRODUTOS DIVERSOS</p>
         </div>
+        <div class="categorias">
+             <a class="cat" href="index.php">Todos</a>
+
+            <?php foreach ($categorias as $cat): ?>
+                <a href="index.php?categoria=<?= $cat['id'] ?>" 
+                class="cat <?= (isset($_GET['categoria']) && $_GET['categoria'] == $cat['id']) ? 'ativo' : '' ?>">
+                    <?= $cat['nome'] ?>
+                </a>
+            <?php endforeach; ?>                
+        </div>
         <?php if(empty($produtos)): ?>
             <p style="color:white; padding:20px;">Nenhum produto disponível</p>
         <?php endif; ?>
@@ -243,6 +357,7 @@
             <?php endforeach; ?>
         </div>
     </div>
+    <hr>
     <div class="footer">
      © 2026 Pharmasmart • Todos os direitos reservados • pharmasmartsuporte@gmail.com • +244 938 530 558 • v1.0 • Sildio Evaristo
     </div>
